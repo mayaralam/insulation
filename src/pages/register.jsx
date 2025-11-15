@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/bg.jpg";
+import toast from "react-hot-toast";
 export default function Register() {
   const navigate = useNavigate();
   const validationSchema = yup.object({
@@ -24,11 +24,7 @@ export default function Register() {
     const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
     existingUsers.push(newUser);
     localStorage.setItem("users", JSON.stringify(existingUsers));
-    Swal.fire({
-      title: "Registration successful!",
-      icon: "success",
-      draggable: true,
-    });
+        toast.success("Registration successful!");
     resetForm();
     navigate("/login");
   };
@@ -36,7 +32,7 @@ export default function Register() {
     <div>
       <div className="grid md:grid-cols-2 grid-cols-1 ">
         <div
-          className=" bg-cover h-full"
+          className=" bg-cover h-screen"
           style={{ backgroundImage: `url(${bg})` }}
         >
           <div className="container mx-auto px-4 flex flex-col pt-40 justify-center gap-4 mb-12 pl-15">
@@ -55,10 +51,10 @@ export default function Register() {
               />
             </svg>
             <h1 className="font-light md:text-5xl text-2xl text-white mb-2">
-             Create your account
+              Create your account
             </h1>
             <h6 className="font-medium md:text-xl text-md text-white">
-             Join thousands of happy customers who shop with confidence.
+              Join thousands of happy customers who shop with confidence.
             </h6>
           </div>
           <div className=" flex">
@@ -76,8 +72,8 @@ export default function Register() {
         >
           <Form className="container mx-auto flex flex-col gap-4 items-center mt-20">
             <h2 className="font-medium text-3xl">Sign Up</h2>
-              <p className="text-sm mb-5 text-center">
-             Enter your details to get started
+            <p className="text-sm mb-5 text-center">
+              Enter your details to get started
             </p>
             <p className="mr-[40%] font-bold font-sans">Username</p>
             <Field
@@ -127,45 +123,49 @@ export default function Register() {
               className="text-red-600"
             />
             <div className="flex items-start gap-2 px-4">
-            <Field
-              type="checkbox"
+              <Field
+                type="checkbox"
+                name="terms"
+                id="terms"
+                className="mt-1 accent-green-600 w-4 h-4"
+              />
+              <label htmlFor="terms" className="leading-5">
+                I agree to the{" "}
+                <a
+                  href="/terms"
+                  className="text-green-600 underline hover:text-green-700"
+                >
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href="/privacy"
+                  className="text-green-600 underline hover:text-green-700"
+                >
+                  Privacy Policy
+                </a>
+                .
+              </label>
+            </div>
+            <ErrorMessage
               name="terms"
-              id="terms"
-              className="mt-1 accent-green-600 w-4 h-4"
+              component="div"
+              className="text-red-500 text-xs"
             />
-            <label htmlFor="terms" className="leading-5">
-              I agree to the{" "}
-              <a
-                href="/terms"
-                className="text-green-600 underline hover:text-green-700"
-              >
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a
-                href="/privacy"
-                className="text-green-600 underline hover:text-green-700"
-              >
-                Privacy Policy
-              </a>.
-            </label>
-          </div>
-          <ErrorMessage
-            name="terms"
-            component="div"
-            className="text-red-500 text-xs"
-          />
             <button
               type="submit"
               className="w-[50%] bg-green-400 text-white rounded-lg px-2 py-1 mt-4 font-bold cursor-pointer font-sans"
             >
-             Create Account
+              Create Account
             </button>
             <div className="flex gap-2">
               <p className="text-gray-600 dark:text-gray-400 font-light mb-7">
                 Already have an account?
               </p>
-              <a href="/login" className="text-green-600 dark:text-green-400  font-light">
+              <a
+                href="/login"
+                className="text-green-600 dark:text-green-400  font-light"
+              >
                 Sign In
               </a>
             </div>
